@@ -5,22 +5,17 @@
 
 
 def canUnlockAll(boxes):
-    if not boxes:
-        return False
+    """Determines if boxes can be unlocked"""
+    position = 0
+    unlocked = {}
 
-    """Initialize a list to keep track of visited boxes"""
-    visited = [False] * len(boxes)
-    visited[0] = True  """The first box is unlocked by default"""
-    queue = [0]  """Start with the first box in the queue"""
-
-    while queue:
-        current_box = queue.pop(0)
-        keys = boxes[current_box]
-
-        for key in keys:
-            if key >= 0 and key < len(boxes) and not visited[key]:
-                visited[key] = True
-                queue.append(key)
-
-    """ Check if all boxes have been visited"""
-    return all(visited)
+    for box in boxes:
+        if len(box) == 0 or position == 0:
+            unlocked[position] = "always_unlocked"
+        for key in box:
+            if key < len(boxes) and key != position:
+                unlocked[key] = key
+        if len(unlocked) == len(boxes):
+            return True
+        position += 1
+    return False
